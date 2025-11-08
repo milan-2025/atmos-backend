@@ -1,0 +1,24 @@
+{
+  "name": "atmos-backend",
+  "version": "1.0.0",
+  "description": "Group Project: Contains backend codebase for \"ATMOS\" which is a real time team wellness monitor it replaces inefficient non-live surveys and provide managers with a non-invasive \"pulse\" on team morale and workload (EX). It also handles live Q&amp;A upvoting, and peer-to-peer \"Kudos\" and many have more live features.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/milan-2025/atmos-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/milan-2025/atmos-backend/issues"
+  },
+  "homepage": "https://github.com/milan-2025/atmos-backend#readme",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "mongoose": "^8.19.3"
+  }
+}
