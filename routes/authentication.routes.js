@@ -2,10 +2,13 @@ const express = require("express")
 const Company = require("../models/Company")
 const User = require("../models/User")
 const jwt = require("jsonwebtoken")
+const bcrypt = require("bcryptjs")
 const {
   registerCompanyRules,
   validateRules,
+  loginRules,
 } = require("../middlewares/validators")
+const { errorHandlerFunction } = require("../util")
 
 const authenticationRouter = express.Router()
 
@@ -50,6 +53,7 @@ authenticationRouter.post(
         email: adminEmail,
         role: "admin",
         password,
+        isPasswordSet: true,
         companyId: newCompany._id,
       })
       let newUser = await newUserDoc.save()
@@ -77,5 +81,72 @@ authenticationRouter.post(
     }
   }
 )
+
+authenticationRouter.post(
+  "/login",
+  loginRules,
+  validateRules,
+  async (req, res) => {
+    try {
+      const { email, password } = req.body
+      const user = await User.findOne({ email: email })
+      if (!user) {
+        return res.status(401).json({
+          sucess: false,
+          errors: {
+            email: "Account not found.",
+          },
+        })
+      }
+      const isMatch = await bcrypt.compare(password, user.password)
+      if (!isMatch) {
+        return res.status(401).json({
+          sucess: false,
+          errors: {
+            error: {
+              password: "Wrong Password.",
+            },
+          },
+        })
+      }
+      if (!user.isPasswordSet) {
+        // password not set return special jwt with flow
+        let specialToken = jwt.sign(
+          {
+            userId: user._id,
+            flow: "SET_PASSWORD",
+          },
+          process.env.JWT_SECRET,
+          {
+            expiresIn: "15m",
+          }
+        )
+
+        return res.status(200).json({
+          sucess: true,
+          specialToken,
+          flow: "SET_PASSSWORD",
+        })
+      }
+      // user have set password already so give normal token
+      let token = jwt.sign(
+        { userId: user._id, companyId: user.companyId },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: "9h",
+        }
+      )
+      return res.status(200).json({
+        sucess: true,
+        token,
+        flow: "NORMAL_LOGIN",
+      })
+    } catch (e) {
+      errorHandlerFunction("Error during login.", e, res)
+    }
+  }
+)
+
+authenticationRouter.post("/setup-password", async (req, res) => {})
 
 module.exports = authenticationRouter

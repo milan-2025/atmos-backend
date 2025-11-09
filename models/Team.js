@@ -5,6 +5,7 @@ const teamSchema = new mongooose.Schema(
     teamName: {
       type: String,
       required: true,
+      unique: true,
     },
     size: {
       type: Number,

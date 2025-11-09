@@ -53,7 +53,26 @@ const registerCompanyRules = [
     .withMessage(passwordErrorMsg),
 ]
 
+const createTeamRules = [
+  body("teamName").trim().notEmpty().withMessage("Team Name is required."),
+  body("desription").optional().trim(),
+]
+
+const loginRules = [
+  body("email")
+    .trim()
+    .notEmpty()
+    .withMessage("Email is required.")
+    .isEmail()
+    .withMessage("Enter a valid email.")
+    .normalizeEmail(),
+
+  body("password").trim().notEmpty().withMessage("Password is required."),
+]
+
 module.exports = {
   validateRules,
   registerCompanyRules,
+  createTeamRules,
+  loginRules,
 }
