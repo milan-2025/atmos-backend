@@ -1,5 +1,5 @@
 const express = require("express")
-const { validateToken } = require("../middlewares/auth")
+const { validateToken, adminCheck } = require("../middlewares/auth")
 const Team = require("../models/Team")
 const { createTeamRules, validateRules } = require("../middlewares/validators")
 
@@ -8,6 +8,7 @@ const adminRouter = express.Router()
 adminRouter.post(
   "/create-team",
   validateToken,
+  adminCheck,
   createTeamRules,
   validateRules,
   async (req, res) => {
@@ -43,3 +44,5 @@ adminRouter.post(
     }
   }
 )
+
+module.exports = adminRouter

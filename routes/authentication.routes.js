@@ -7,6 +7,7 @@ const {
   registerCompanyRules,
   validateRules,
   loginRules,
+  setupPasswordRules,
 } = require("../middlewares/validators")
 const { errorHandlerFunction } = require("../util")
 
@@ -147,6 +148,52 @@ authenticationRouter.post(
   }
 )
 
-authenticationRouter.post("/setup-password", async (req, res) => {})
+authenticationRouter.post(
+  "/setup-password",
+  setupPasswordRules,
+  validateRules,
+  async (req, res) => {
+    try {
+      const { specialToken, password } = req.body
+      const decoded = jwt.verify(specialToken, process.env.JWT_SECRET)
+      if (!decoded.flow == "SET_PASSWORD") {
+        return res.status(401).json({
+          sucess: false,
+          errors: {
+            error: "Some error during seting password, try agian",
+          },
+        })
+      }
+      let user = await User.findById(decoded.userId)
+      if (!user) {
+        return res.status(401).json({
+          sucess: false,
+          errors: {
+            error: "Some error during seting password, try agian",
+          },
+        })
+      }
+      user.password = password
+      user.isPasswordSet = true
+      await user.save()
+      jwt.sign(
+        { userId: user._id, companyId: user.companyId },
+        process.env.JWT_SECRET,
+        { expiresIn: "9h" }
+      )
+      return res.status(201).json({
+        sucess: true,
+        message: "Password set successfully",
+        token,
+      })
+    } catch (e) {
+      errorHandlerFunction(
+        "Some error during seting password, try agian",
+        e,
+        res
+      )
+    }
+  }
+)
 
 module.exports = authenticationRouter

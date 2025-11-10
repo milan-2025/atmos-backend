@@ -70,9 +70,19 @@ const loginRules = [
   body("password").trim().notEmpty().withMessage("Password is required."),
 ]
 
+const setupPasswordRules = [
+  body("password")
+    .trim()
+    .isLength({ min: 8 })
+    .withMessage("Password must be at least 8 characters long")
+    .matches(strongPasswordRegex)
+    .withMessage(passwordErrorMsg),
+]
+
 module.exports = {
   validateRules,
   registerCompanyRules,
   createTeamRules,
   loginRules,
+  setupPasswordRules,
 }

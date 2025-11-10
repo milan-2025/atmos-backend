@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken")
 const Company = require("../models/Company")
 const User = require("../models/User")
+const { errorHandlerFunction } = require("../util")
 
 const validateToken = async (req, res, next) => {
   try {
@@ -36,6 +37,24 @@ const validateToken = async (req, res, next) => {
   }
 }
 
+const adminCheck = async (req, res, next) => {
+  try {
+    let role = req.user.role
+    if (!role == "admin") {
+      return res.status(401).json({
+        sucess: false,
+        errors: {
+          error: "Unauthorized access.",
+        },
+      })
+    }
+    next()
+  } catch (e) {
+    errorHandlerFunction("Unauthorized access.", e, res)
+  }
+}
+
 module.exports = {
   validateToken,
+  adminCheck,
 }

@@ -3,6 +3,7 @@ const dotenv = require("dotenv")
 const mongoose = require("mongoose")
 const authenticationRouter = require("./routes/authentication.routes")
 const cors = require("cors")
+const adminRouter = require("./routes/admin.routes")
 
 dotenv.config()
 
@@ -26,3 +27,4 @@ mongoose
 app.use(cors())
 app.use(express.json())
 app.use("/api/authentication/", authenticationRouter)
+app.use("/api/admin/", adminRouter)
