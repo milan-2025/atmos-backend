@@ -40,7 +40,7 @@ const validateToken = async (req, res, next) => {
 const adminCheck = async (req, res, next) => {
   try {
     let role = req.user.role
-    if (!role == "admin") {
+    if (!role.includes("admin")) {
       return res.status(401).json({
         sucess: false,
         errors: {

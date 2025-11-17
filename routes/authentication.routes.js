@@ -10,6 +10,7 @@ const {
   setupPasswordRules,
 } = require("../middlewares/validators")
 const { errorHandlerFunction } = require("../util")
+const { validateToken, adminCheck } = require("../middlewares/auth")
 
 const authenticationRouter = express.Router()
 
@@ -52,7 +53,7 @@ authenticationRouter.post(
       let newUserDoc = new User({
         fullName,
         email: adminEmail,
-        role: "admin",
+        role: ["admin"],
         password,
         isPasswordSet: true,
         companyId: newCompany._id,
@@ -195,5 +196,19 @@ authenticationRouter.post(
     }
   }
 )
+
+authenticationRouter.post("/check-token", validateToken,async (req,res)=>{
+  return res.status(200).json({
+    sucess: true,
+    message: "Token is valid."
+  })
+})
+
+authenticationRouter.post("/check-admin",validateToken,adminCheck,async(req,res)=>{
+  return res.status(200).json({
+    sucess: true,
+    message: "user is admin."
+  })
+})
 
 module.exports = authenticationRouter

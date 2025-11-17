@@ -6,7 +6,7 @@ const cors = require("cors")
 const adminRouter = require("./routes/admin.routes")
 dotenv.config()
 const { sendEmail } = require("./util")
-const { sendTestEmail } = require("./sentTestmail")
+// const { sendTestEmail } = require("./sentTestmail")
 
 const app = express()
 
