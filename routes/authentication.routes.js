@@ -105,9 +105,7 @@ authenticationRouter.post(
         return res.status(401).json({
           sucess: false,
           errors: {
-            error: {
-              password: "Wrong Password.",
-            },
+            password: "Wrong Password."
           },
         })
       }
@@ -126,7 +124,7 @@ authenticationRouter.post(
 
         return res.status(200).json({
           sucess: true,
-          specialToken,
+          token:specialToken,
           flow: "SET_PASSSWORD",
         })
       }
