@@ -105,7 +105,7 @@ authenticationRouter.post(
         return res.status(401).json({
           sucess: false,
           errors: {
-            password: "Wrong Password."
+            password: "Wrong Password.",
           },
         })
       }
@@ -124,8 +124,8 @@ authenticationRouter.post(
 
         return res.status(200).json({
           sucess: true,
-          token:specialToken,
-          flow: "SET_PASSSWORD",
+          token: specialToken,
+          flow: "SET_PASSWORD",
         })
       }
       // user have set password already so give normal token
@@ -149,13 +149,13 @@ authenticationRouter.post(
 
 authenticationRouter.post(
   "/setup-password",
-  setupPasswordRules,
-  validateRules,
+  // setupPasswordRules,
+  // validateRules,
   async (req, res) => {
     try {
       const { specialToken, password } = req.body
       const decoded = jwt.verify(specialToken, process.env.JWT_SECRET)
-      if (!decoded.flow == "SET_PASSWORD") {
+      if (decoded.flow != "SET_PASSWORD") {
         return res.status(401).json({
           sucess: false,
           errors: {
@@ -175,7 +175,7 @@ authenticationRouter.post(
       user.password = password
       user.isPasswordSet = true
       await user.save()
-      jwt.sign(
+      let token = jwt.sign(
         { userId: user._id, companyId: user.companyId },
         process.env.JWT_SECRET,
         { expiresIn: "9h" }
@@ -195,18 +195,57 @@ authenticationRouter.post(
   }
 )
 
-authenticationRouter.post("/check-token", validateToken,async (req,res)=>{
+authenticationRouter.post("/check-token", validateToken, async (req, res) => {
   return res.status(200).json({
     sucess: true,
-    message: "Token is valid."
+    message: "Token is valid.",
   })
 })
 
-authenticationRouter.post("/check-admin",validateToken,adminCheck,async(req,res)=>{
-  return res.status(200).json({
-    sucess: true,
-    message: "user is admin."
-  })
+authenticationRouter.post(
+  "/check-admin",
+  validateToken,
+  adminCheck,
+  async (req, res) => {
+    return res.status(200).json({
+      sucess: true,
+      message: "user is admin.",
+    })
+  }
+)
+
+authenticationRouter.post("/check-special-token", async (req, res) => {
+  try {
+    const specialToken = req.header("Authorization").replace("Bearer ", "")
+    const decoded = jwt.verify(specialToken, process.env.JWT_SECRET)
+    if (decoded.flow != "SET_PASSWORD") {
+      return res.status(401).json({
+        sucess: false,
+        errors: {
+          error: "Some error during token validation, try agian",
+        },
+      })
+    }
+    let user = await User.findById(decoded.userId)
+    if (!user) {
+      return res.status(401).json({
+        sucess: false,
+        errors: {
+          error: "Some error during token validation, try agian",
+        },
+      })
+    }
+    return res.status(200).json({
+      sucess: true,
+      meesage: "can proceed to set password",
+    })
+  } catch (err) {
+    errorHandlerFunction(
+      "Some error during token validation, try agian",
+      err,
+      res
+    )
+  }
 })
 
 module.exports = authenticationRouter
