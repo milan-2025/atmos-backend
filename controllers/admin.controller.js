@@ -204,6 +204,37 @@ const adminController = {
       })
     }
   },
+
+  getMembers: async (req, res) => {},
+
+  assignManager: async (req, res) => {
+    // if member already assigned return error member already asigned
+    // format -- {
+    // errors: {
+    //   assignManager: 'member already assigned'
+    // }}
+    //
+    //
+    //
+    // body will have userId and teamid of the member to be added
+    // find the user update his role by inserting "manager" in array
+    // assign that userId to managerId of team
+    // save all and return staus 201
+  },
+
+  removeMember: async (req, res) => {
+    // body will have userid of the member
+    // find member and make it's teamId null
+    // if member is a manager make Team's managerId null then make it's teamID null
+    // send remove Member email
+    // decrement team size by 1
+  },
+
+  deleteTeam: async (req, res) => {
+    // if team size is not 0 return error remove all members first
+    //------
+    // body will have team id set isDeleted to true
+  },
 }
 
 module.exports = adminController
