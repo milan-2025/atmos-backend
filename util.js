@@ -22,7 +22,7 @@ const transporter = nodemailer.createTransport({
   // secure: true,
   host: "smtp-relay.brevo.com",
 
-  port: 587,
+  port: 2525,
   secure: false, // Must be false for port 587
   // requireTLS: true,
   auth: {
