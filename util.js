@@ -26,7 +26,7 @@ const transporter = nodemailer.createTransport({
   secure: false, // Must be false for port 587
   // requireTLS: true,
   auth: {
-    user: process.env.BREVO_USER,
+    user: process.env.EMAIL_USER,
     // The App Password is used as the 'pass'
     pass: process.env.BREVO_PASS,
   },
@@ -47,7 +47,7 @@ transporter.use("compile", hbs(hbsOptions))
 const sendEmail = async (to, subject, template, context, res) => {
   try {
     const mailOptions = {
-      from: process.env.BREVO_USER,
+      from: process.env.EMAIL_USER,
       to,
       subject,
       template,
