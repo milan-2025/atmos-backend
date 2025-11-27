@@ -1,4 +1,4 @@
-/*const Team = require("../models/Team")
+const Team = require("../models/Team")
 const User = require("../models/User")
 const { sendEmail, generateTemporaryPassword } = require("../util")
 const adminController = {
@@ -238,7 +238,8 @@ const adminController = {
 }
 
 module.exports = adminController
-*/
+
+/*
 const Team = require("../models/Team");
 const User = require("../models/User");
 const { sendEmail, generateTemporaryPassword } = require("../util");
@@ -561,4 +562,4 @@ const adminController = {
 };
 
 module.exports = adminController;
-
+*/

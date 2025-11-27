@@ -9,6 +9,7 @@ dotenv.config()
 const { sendEmail } = require("./util")
 const kudoRouter = require("./routes/kudo.routes.js")
 const pulseCheckRouter = require("./routes/pulseCheck.routes.js")
+const managerRouter = require("./routes/manager.routes.js")
 // const { sendTestEmail } = require("./sentTestmail")
 
 const app = express()
@@ -39,6 +40,7 @@ app.use("/api/authentication/", authenticationRouter)
 app.use("/api/admin/", adminRouter)
 app.use("/api/admin/kudos", kudoRouter)
 app.use("/api/pulsecheck", pulseCheckRouter)
+app.use("/api/manager/", managerRouter)
 
 // app.post("/send-email", async (req, res) => {
 //   sendEmail("milansinghdav@gmail.com", "Test Subject", "Test", { value: 123 })
