@@ -29,6 +29,7 @@ const transporter = nodemailer.createTransport({
     // The App Password is used as the 'pass'
     pass: process.env.EMAIL_PASS,
   },
+  connectionTimeout: 10000,
 })
 
 const hbsOptions = {
