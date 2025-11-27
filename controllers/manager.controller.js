@@ -32,7 +32,7 @@ const managerController = {
         teamID: teamId,
       })
 
-      return res.staus(200).json({ message: "meeting started" })
+      return res.status(200).json({ message: "meeting started" })
     } catch (error) {
       errorHandlerFunction("error while starting live QA", error, res)
     }
