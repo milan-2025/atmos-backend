@@ -20,16 +20,17 @@ const transporter = nodemailer.createTransport({
   // host: "smtp.gmail.com", // Explicit host
   // port: 465, // Standard secure port
   // secure: true,
-  host: "smtp.gmail.com",
+  host: "smtp-relay.brevo.com",
+
   port: 587,
   secure: false, // Must be false for port 587
-  requireTLS: true,
+  // requireTLS: true,
   auth: {
-    user: process.env.EMAIL_USER,
+    user: process.env.BREVO_USER,
     // The App Password is used as the 'pass'
-    pass: process.env.EMAIL_PASS,
+    pass: process.env.BREVO_PASS,
   },
-  connectionTimeout: 10000,
+  connectionTimeout: 20000,
 })
 
 const hbsOptions = {
@@ -46,7 +47,7 @@ transporter.use("compile", hbs(hbsOptions))
 const sendEmail = async (to, subject, template, context, res) => {
   try {
     const mailOptions = {
-      from: process.env.EMAIL_USER,
+      from: process.env.BREVO_USER,
       to,
       subject,
       template,
