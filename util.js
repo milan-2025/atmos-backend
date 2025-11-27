@@ -17,9 +17,13 @@ const errorHandlerFunction = (msg, e, res) => {
 
 const transporter = nodemailer.createTransport({
   // Using the 'gmail' service automatically sets host, port, and security
-  host: "smtp.gmail.com", // Explicit host
-  port: 465, // Standard secure port
-  secure: true,
+  // host: "smtp.gmail.com", // Explicit host
+  // port: 465, // Standard secure port
+  // secure: true,
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false, // Must be false for port 587
+  requireTLS: true,
   auth: {
     user: process.env.EMAIL_USER,
     // The App Password is used as the 'pass'
