@@ -3,8 +3,8 @@ const hbs =
   require("nodemailer-express-handlebars").default ||
   require("nodemailer-express-handlebars")
 const path = require("path")
-const dotenv = require("dotenv")
-dotenv.config()
+// const dotenv = require("dotenv")
+// dotenv.config()
 const errorHandlerFunction = (msg, e, res) => {
   console.log(msg, e)
   return res.status(401).json({
@@ -15,20 +15,17 @@ const errorHandlerFunction = (msg, e, res) => {
   })
 }
 
-const EMAIL_USER = process.env.EMAIL_USER
-
-const APP_PASSWORD = process.env.EMAIL_PASS
-
 const transporter = nodemailer.createTransport({
   // Using the 'gmail' service automatically sets host, port, and security
   host: "smtp.gmail.com", // Explicit host
   port: 465, // Standard secure port
   secure: true,
   auth: {
-    user: EMAIL_USER,
+    user: process.env.EMAIL_USER,
     // The App Password is used as the 'pass'
-    pass: APP_PASSWORD,
+    pass: process.env.EMAIL_PASS,
   },
+  time,
 })
 
 const hbsOptions = {
