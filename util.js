@@ -41,7 +41,7 @@ transporter.use("compile", hbs(hbsOptions))
 const sendEmail = async (to, subject, template, context, res) => {
   try {
     const mailOptions = {
-      from: EMAIL_USER,
+      from: process.env.EMAIL_USER,
       to,
       subject,
       template,
