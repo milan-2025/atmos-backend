@@ -13,7 +13,7 @@ const managerController = {
       let mName = "meeting_" + teamId
       let meeting = await QaMeeting.findOne({
         meetingName: mName,
-        teamId: req.user.teamID,
+        teamId: req.user.teamId,
         companyId: req.company._id,
       })
       if (meeting) {
@@ -23,7 +23,7 @@ const managerController = {
       if (!meeting) {
         meeting = await QaMeeting.create({
           meetingName: mName,
-          teamId: req.user.teamID,
+          teamId: req.user.teamId,
           companyId: req.company._id,
           isActive: true,
         })
@@ -46,7 +46,7 @@ const managerController = {
 
       let meeting = await QaMeeting.findOne({
         meetingName: mName,
-        teamId: req.user.teamID,
+        teamId: req.user.teamId,
         companyId: req.company._id,
       })
 
