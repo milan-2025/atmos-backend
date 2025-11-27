@@ -8,6 +8,7 @@ const adminRouter = require("./routes/admin.routes")
 dotenv.config()
 const { sendEmail } = require("./util")
 const kudoRouter = require("./routes/kudo.routes.js")
+const pulseCheckRouter = require("./routes/pulseCheck.routes.js")
 // const { sendTestEmail } = require("./sentTestmail")
 
 const app = express()
@@ -24,7 +25,7 @@ mongoose
     io.on("connection", (socket) => {
       console.log("conected to client")
     })
-    server.listen(port, () => {
+    server.listen(port, "0.0.0.0", () => {
       console.log("server started on port with socket.io " + port)
     })
   })
@@ -37,6 +38,8 @@ app.use(express.json())
 app.use("/api/authentication/", authenticationRouter)
 app.use("/api/admin/", adminRouter)
 app.use("/api/admin/kudos", kudoRouter)
+app.use("/api/pulsecheck", pulseCheckRouter)
+
 // app.post("/send-email", async (req, res) => {
 //   sendEmail("milansinghdav@gmail.com", "Test Subject", "Test", { value: 123 })
 //   // sendTestEmail()
