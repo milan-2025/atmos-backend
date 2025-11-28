@@ -248,6 +248,11 @@ const authenticationController = {
         })
       }
       let io = require("../socket").getIO()
+      let existingMembers = existingMeeting.members
+      if (!existingMembers.includes(req.user._id.toString())) {
+        existingMeeting.members.unshift(req.user._id)
+        await existingMeeting.save()
+      }
       io.emit("user_joined_" + teamId, {
         name: req.user.fullName,
         email: req.user.email,

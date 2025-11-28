@@ -75,6 +75,28 @@ const managerController = {
       errorHandlerFunction("error while ending live QA", error, res)
     }
   },
+  getLiveQaData: async (req, res) => {
+    try {
+      let existingMeeting = await QaMeeting.findOne({
+        teamId: req.user.teamId,
+      }).populate("members", "email teamId fullName")
+      console.log("existingMeeting--", existingMeeting)
+      if (!existingMeeting) {
+        return res.status(401).json({
+          success: false,
+          errors: {
+            error: "meeting not found.",
+          },
+        })
+      }
+      return res.status(200).json({
+        success: true,
+        existingMeeting: existingMeeting,
+      })
+    } catch (err) {
+      errorHandlerFunction("error while getting live Qa data", err, res)
+    }
+  },
 }
 
 module.exports = managerController

@@ -6,6 +6,19 @@ const qaMeetingSchema = new mongoose.Schema({
     unique: true,
     required: true,
   },
+  members: {
+    type: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    default: [],
+  },
+  questions: {
+    type: [],
+    default: [],
+  },
   teamId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Team",
