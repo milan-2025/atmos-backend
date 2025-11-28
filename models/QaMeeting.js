@@ -33,6 +33,10 @@ const qaMeetingSchema = new mongoose.Schema({
     type: Boolean,
     required: true,
   },
+  hostEmail: {
+    type: String,
+    required: true,
+  },
 })
 
 module.exports = mongoose.model("QaMeeting", qaMeetingSchema)

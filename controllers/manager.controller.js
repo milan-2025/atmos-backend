@@ -26,6 +26,7 @@ const managerController = {
           teamId: req.user.teamId,
           companyId: req.company._id,
           isActive: true,
+          hostEmail: req.user.email,
         })
       }
       io.emit("meeting_started_" + teamId, {
