@@ -235,7 +235,7 @@ const authenticationController = {
           message: "UnAuthorized Access.",
         })
       }
-      if (existingMeeting.isActive) {
+      if (!existingMeeting.isActive) {
         return res.status(400).json({
           sucess: false,
           message: "Meeting is not active.",
