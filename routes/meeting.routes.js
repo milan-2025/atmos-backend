@@ -9,3 +9,5 @@ meetingRouter.get(
   validateToken,
   managerController.getLiveQaData
 )
+
+module.exports = meetingRouter
