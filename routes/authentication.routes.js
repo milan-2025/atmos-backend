@@ -54,4 +54,10 @@ authenticationRouter.post(
   authenticationController.checkSpecialToken
 )
 
+authenticationRouter.post(
+  "/check-qa-meeting",
+  validateToken,
+  authenticationController.checkQaMeeting
+)
+
 module.exports = authenticationRouter

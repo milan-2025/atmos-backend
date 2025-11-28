@@ -3,6 +3,7 @@ const User = require("../models/User")
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcryptjs")
 const { errorHandlerFunction } = require("../util")
+const QaMeeting = require("../models/QaMeeting")
 
 const authenticationController = {
   registerCompany: async (req, res) => {
@@ -219,6 +220,46 @@ const authenticationController = {
       sucess: true,
       message: "user is admin.",
     })
+  },
+
+  checkQaMeeting: async (req, res) => {
+    try {
+      const { ms } = req.body
+      let teamId = req.user.teamId.toString()
+      let existingMeeting = await QaMeeting.findOne({
+        teamId: ms,
+      })
+      if (!existingMeeting) {
+        return res.status(401).json({
+          sucess: false,
+          message: "UnAuthorized Access.",
+        })
+      }
+      if (existingMeeting.isActive) {
+        return res.status(400).json({
+          sucess: false,
+          message: "Meeting is not active.",
+        })
+      }
+      if (ms != teamId) {
+        return res.status(401).json({
+          sucess: false,
+          message: "You are not allowed in meeting.",
+        })
+      }
+      let io = require("../socket").getIO()
+      io.emit("user_joined_" + teamId, {
+        name: req.user.fullName,
+        email: req.user.email,
+        teamId: teamId,
+      })
+      return res.status(200).json({
+        sucess: true,
+        message: "You are allowed",
+      })
+    } catch (e) {
+      errorHandlerFunction("error while checking Qa meeting", e, res)
+    }
   },
 }
 
