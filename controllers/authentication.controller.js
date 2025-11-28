@@ -60,6 +60,7 @@ const authenticationController = {
         message: "Company registered Successully.",
         token,
         name: newUser.fullName,
+        email: newUser.email,
         teamId: newUser.teamId || "",
       })
     } catch (e) {
@@ -112,6 +113,7 @@ const authenticationController = {
           flow: "SET_PASSWORD",
           name: "",
           teamId: "",
+          email: "",
         })
       }
       // user have set password already so give normal token
@@ -128,6 +130,7 @@ const authenticationController = {
         flow: "NORMAL_LOGIN",
         name: user.fullName,
         teamId: user.teamId,
+        email: user.email,
       })
     } catch (e) {
       errorHandlerFunction("Error during login.", e, res)

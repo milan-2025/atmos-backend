@@ -17,4 +17,10 @@ meetingRouter.post(
   meetingController.askQuestion
 )
 
+meetingRouter.get(
+  "/is-meeting-active",
+  validateToken,
+  meetingController.isQaMeetingActive
+)
+
 module.exports = meetingRouter

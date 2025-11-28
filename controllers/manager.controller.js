@@ -30,6 +30,7 @@ const managerController = {
       }
       io.emit("meeting_started_" + teamId, {
         teamID: teamId,
+        startedBy: req.user.email,
       })
 
       return res
