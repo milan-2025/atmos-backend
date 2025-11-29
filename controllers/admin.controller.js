@@ -1,6 +1,10 @@
 const Team = require("../models/Team")
 const User = require("../models/User")
-const { sendEmail, generateTemporaryPassword } = require("../util")
+const {
+  sendEmail,
+  generateTemporaryPassword,
+  errorHandlerFunction,
+} = require("../util")
 const adminController = {
   createTeam: async (req, res) => {
     try {
@@ -259,6 +263,54 @@ const adminController = {
     // find the user update his role by inserting "manager" in array
     // assign that userId to managerId of team
     // save all and return staus 201
+
+    try {
+      const { userId, teamId } = req.body
+      // let check if team already have a manager
+      let team = await Team.findById(teamId)
+      if (!team) {
+        return res.status(500).json({
+          success: false,
+          errors: {
+            error: "Team not found",
+          },
+        })
+      }
+      if (team.managerId) {
+        return res.status(500).json({
+          success: false,
+          errors: {
+            error: "Manager already assigned",
+          },
+        })
+      }
+      team.managerId = userId
+      // now will update user role to manager
+      let user = await User.findById(userId)
+      if (!user) {
+        return res.status(500).json({
+          errors: {
+            error: "User not found",
+          },
+        })
+      }
+      user.role.push("manager")
+      await user.save()
+      await team.save()
+
+      await sendEmail(
+        user.email,
+        `New information from ${team.teamName}.`,
+        "AssignManager",
+        {
+          fullName: user.fullName,
+          teamName: team.teamName,
+        },
+        res
+      )
+    } catch (error) {
+      errorHandlerFunction("error while assigning manager", error, res)
+    }
   },
 
   removeMember: async (req, res) => {
