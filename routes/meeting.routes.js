@@ -23,4 +23,10 @@ meetingRouter.get(
   meetingController.isQaMeetingActive
 )
 
+meetingRouter.post(
+  "/user-left-meeting",
+  validateToken,
+  meetingController.userLeftMeeting
+)
+
 module.exports = meetingRouter
