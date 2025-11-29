@@ -170,6 +170,8 @@ const authenticationController = {
         message: "Password set successfully",
         token,
         name: savedUser.fullName,
+        email: savedUser.email,
+        teamId: savedUser.teamId,
       })
     } catch (e) {
       errorHandlerFunction(
