@@ -38,4 +38,11 @@ adminRouter.get(
   adminController.getMembers
 )
 
+adminRouter.post(
+  "/assign-manager",
+  validateToken,
+  adminCheck,
+  adminController.assignManager
+)
+
 module.exports = adminRouter
