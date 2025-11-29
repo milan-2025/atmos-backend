@@ -76,7 +76,10 @@ const meetingController = {
           },
         })
       }
-      let index = meeting.members.findIndex(req.user._id.toString())
+      let index = meeting.members.findIndex((item) => {
+        return item._id.toString() == req.user.teamId.toString()
+      })
+      console.log("index--", index)
       if (index >= 0) {
         meeting.members.splice(index, 1)
         await meeting.save()
