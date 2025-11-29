@@ -77,7 +77,7 @@ const meetingController = {
         })
       }
       let index = meeting.members.findIndex((item) => {
-        return item._id.toString() == req.user.teamId.toString()
+        return item._id.toString() == req.user._id.toString()
       })
       console.log("index--", index)
       if (index >= 0) {
