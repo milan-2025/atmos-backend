@@ -205,7 +205,46 @@ const adminController = {
     }
   },
 
-  getMembers: async (req, res) => {},
+  getMembers: async (req, res) => {
+    const searchQuery = req.query.q
+    const teamId = req.query.teamId
+    if (!teamId) {
+      return res.status(400).json({
+        success: false,
+        errors: {
+          error: "no team id provided",
+        },
+      })
+    }
+    if (!searchQuery) {
+      // Return an empty array if no query is provided (or all items, depending on preference)
+      return res.status(200).json({
+        membersFound: [],
+      })
+    }
+
+    try {
+      // 2. Construct a Regular Expression for prefix matching
+      // '^' ensures the search starts at the beginning of the string.
+      // 'i' makes the search case-insensitive.
+      const regex = new RegExp(`^${searchQuery}`, "i")
+
+      // 3. Query Mongoose
+      // Find documents where the 'name' field matches the regex.
+      // Limit to 10 suggestions for a standard autocomplete experience.
+      const suggestions = await User.find({ fullName: regex, teamId: teamId })
+        .select("fullName _id email teamId") // Only return the name and category fields
+        .limit(10)
+
+      // 4. Send the results
+      return res.status.json({
+        membersFound: suggestions,
+      })
+    } catch (error) {
+      console.error("Search error:", error)
+      res.status(500).json({ message: "Internal server error during search." })
+    }
+  },
 
   assignManager: async (req, res) => {
     // if member already assigned return error member already asigned
