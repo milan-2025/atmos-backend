@@ -49,7 +49,6 @@ const managerController = {
       let io = require("../socket.js").getIO()
 
       let meeting = await QaMeeting.findOne({
-        meetingName: mName,
         teamId: req.user.teamId,
         companyId: req.company._id,
       })
@@ -62,7 +61,8 @@ const managerController = {
           },
         })
       }
-
+      meeting.members = []
+      meeting.questions = []
       meeting.isActive = false
       await meeting.save()
 

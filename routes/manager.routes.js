@@ -10,4 +10,6 @@ managerRouter.post(
   managerController.startLiveQa
 )
 
+managerRouter.post("/end-live-qa", validateToken, managerController.endLiveQa)
+
 module.exports = managerRouter
