@@ -237,7 +237,7 @@ const adminController = {
         .limit(10)
 
       // 4. Send the results
-      return res.status.json({
+      return res.status(200).json({
         membersFound: suggestions,
       })
     } catch (error) {
