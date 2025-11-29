@@ -31,4 +31,11 @@ adminRouter.post(
   adminController.addMember
 )
 
+adminRouter.get(
+  "/get-members",
+  validateToken,
+  adminCheck,
+  adminController.getMembers
+)
+
 module.exports = adminRouter
