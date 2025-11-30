@@ -62,6 +62,7 @@ const authenticationController = {
         name: newUser.fullName,
         email: newUser.email,
         teamId: newUser.teamId || "",
+        role: newUser.role,
       })
     } catch (e) {
       console.log("Error while registring company.", e)
@@ -114,6 +115,7 @@ const authenticationController = {
           name: "",
           teamId: "",
           email: "",
+          role: "",
         })
       }
       // user have set password already so give normal token
@@ -131,6 +133,7 @@ const authenticationController = {
         name: user.fullName,
         teamId: user.teamId,
         email: user.email,
+        role: user.role,
       })
     } catch (e) {
       errorHandlerFunction("Error during login.", e, res)
@@ -172,6 +175,7 @@ const authenticationController = {
         name: savedUser.fullName,
         email: savedUser.email,
         teamId: savedUser.teamId,
+        user: savedUser.role,
       })
     } catch (e) {
       errorHandlerFunction(
