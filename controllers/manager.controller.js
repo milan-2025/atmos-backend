@@ -171,7 +171,7 @@ const managerController = {
             value: owPercentage,
             color: "#ef4444",
           },
-          // { name: "No Response", value: nrPercentage, color: "#e5e7eb" },
+          { name: "No Response", value: nrPercentage, color: "#e5e7eb" },
         ],
         totalMembers: totalMembers,
         totalWorkloads: totWorkloads,
