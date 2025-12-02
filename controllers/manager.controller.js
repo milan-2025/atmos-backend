@@ -144,15 +144,14 @@ const managerController = {
         totWorkloads - (totalFeelingGood + totalGeetingBusy + totalOverwhelmed)
 
       let fgPercentage =
-        Number(Math.toFixed(totalFeelingGood / totWorkloads, 4)) * 100
+        Number((totalFeelingGood / totWorkloads).toFixed(4)) * 100
       let gbPercentage =
-        Number(Math.toFixed(totalGeetingBusy / totWorkloads, 4)) * 100
+        Number((totalGeetingBusy / totWorkloads).toFixed(4)) * 100
 
       let owPercentage =
-        Number(Math.toFixed(totalOverwhelmed / totWorkloads, 4)) * 100
+        Number((totalOverwhelmed / totWorkloads).toFixed(4)) * 100
 
-      let nrPercentage =
-        Number(Math.toFixed(notResponded / totWorkloads, 4)) * 100
+      let nrPercentage = Number((notResponded / totWorkloads).toFixed(4)) * 100
 
       return res.status(200).json({
         success: true,
