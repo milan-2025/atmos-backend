@@ -11,5 +11,10 @@ managerRouter.post(
 )
 
 managerRouter.post("/end-live-qa", validateToken, managerController.endLiveQa)
+managerRouter.get(
+  "/pulse-pi-chart",
+  validateToken,
+  managerController.getWorkloadDashboardData
+)
 
 module.exports = managerRouter
